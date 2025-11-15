@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="Windows 11 Xbox Controller Wake Banner" width="100%">
+</p>
+
 # Console-Style PC Wizard  
 **Turn Windows 11 into an Xbox-style console with controller wake, classic sleep, and auto-login.**  
 Created by **SoCal IT** — https://github.com/socalit  
