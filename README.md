@@ -18,7 +18,7 @@ I built this wizard because I want my PC to behave **exactly like an Xbox consol
 -  Press Xbox button → PC wakes instantly  
 -  No login screen  
 -  Instant sleep / instant-on behavior  
--  Controller wake via the **official Xbox Wireless Adapter** (dongle)  
+-  Controller wake via the **official Xbox Wireless Adapter** (dongle) Amazon affiliate link: https://amzn.to/4i0bjEW
 -  No Modern Standby nonsense  
 
 Microsoft removed these options from the UI — so this tool brings them back.
