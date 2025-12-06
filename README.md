@@ -22,8 +22,7 @@ I built this project because I want my PC to behave **exactly like an Xbox conso
 - Press Xbox button → **PC wakes instantly**  
 - No login screen  
 - Instant sleep / instant-on behavior  
-- Controller wake via the **official Xbox Wireless Adapter**  
-  *(Optional Amazon affiliate link: https://amzn.to/4i0bjEW)*  
+- Controller wake via the **official Xbox Wireless Adapter**
 - No Modern Standby issues  
 
 Microsoft removed many of these options from the UI — this wizard brings them back.
@@ -34,7 +33,7 @@ Microsoft removed many of these options from the UI — this wizard brings them 
 
 To enable console-style controller wake, you **must have**:
 
-### **Xbox Wireless Adapter for Windows (USB dongle)**  
+### **Xbox Wireless Adapter for Windows (USB dongle)** Amazon affiliate link: https://amzn.to/4i0bjEW
 (Not Bluetooth — Bluetooth cannot reliably wake a PC.)
 
 ### **Xbox One / Series X|S Wireless Controller**
