@@ -3,104 +3,106 @@
 </p>
 
 # Console-Style PC Wizard  
-**Turn Windows 11 into an Xbox-style console with controller wake, classic sleep, and auto-login.**  
+**Turn Windows 11 into an Xbox-style console with controller wake, classic S3 sleep, and auto-login.**  
 Created by **SoCal IT** — https://github.com/socalit  
 
 ---
 
 ## Why I Built This
-Windows 11 continues stripping away options that made classic sleep easy:
+Windows 11 continues stripping away options that made classic sleep work reliably:
 
 - No clear “S3 Sleep” toggle  
 - Modern Standby (S0ix) replacing true deep sleep  
 - Login prompts when waking from sleep  
-- Hidden/broken USB power settings  
-- Xbox controller wake not working consistently  
+- Broken or inconsistent USB power management  
+- Xbox controller wake not working reliably  
 
-I built this wizard because I want my PC to behave **exactly like an Xbox console**:
+I built this project because I want my PC to behave **exactly like an Xbox console**:
 
--  Press Xbox button → PC wakes instantly  
--  No login screen  
--  Instant sleep / instant-on behavior  
--  Controller wake via the **official Xbox Wireless Adapter** (dongle) Amazon affiliate link: https://amzn.to/4i0bjEW
--  No Modern Standby nonsense  
+- Press Xbox button → **PC wakes instantly**  
+- No login screen  
+- Instant sleep / instant-on behavior  
+- Controller wake via the **official Xbox Wireless Adapter**  
+  *(Optional Amazon affiliate link: https://amzn.to/4i0bjEW)*  
+- No Modern Standby issues  
 
-Microsoft removed these options from the UI — so this tool brings them back.
+Microsoft removed many of these options from the UI — this wizard brings them back.
 
 ---
 
-#  Requirements
+# Requirements
 
 To enable console-style controller wake, you **must have**:
 
-###  **Xbox Wireless Adapter for Windows (USB dongle)**  
-(Not Bluetooth — Bluetooth controllers cannot reliably wake a PC.)
+### ✔ **Xbox Wireless Adapter for Windows (USB dongle)**  
+(Not Bluetooth — Bluetooth cannot reliably wake a PC.)
 
-###  **Xbox One / Series X|S wireless controller**
+### ✔ **Xbox One / Series X|S Wireless Controller**
 
-###  Windows 10/11 PC with **S3 Sleep enabled in BIOS**  
-The script will detect if S3 is missing and show clear BIOS instructions.
+### ✔ **Windows 10/11 PC with S3 Sleep enabled in BIOS**  
+If S3 is missing, the script will explain how to enable it.
 
 ---
 
-#  Features
+# Features
 
-##  1. Console-Style Sleep Setup
+## 1. Console-Style Sleep Setup
 - Enables or enforces **Classic S3 Sleep**  
 - Disables **Modern Standby (S0ix)** via registry override  
-- Sets sleep & display timeouts (like a console)  
+- Applies console-style sleep & display timeouts  
 - Enables **controller wake** using:
   - Name-based device scan  
-  - USB VID/PID hardware scan for official Xbox dongle  
-- Gives BIOS instructions if S3 is not enabled  
+  - USB VID/PID hardware scan for the wireless dongle  
+- Gives BIOS instructions if S3 is disabled
 
-##  2. Controller Wake
-Automatically configures your system so you can press **the Xbox button** to wake your PC — just like waking an Xbox console.
+## 2. Controller Wake
+Configures your system so pressing **the Xbox button** wakes your PC — just like an Xbox console.
 
-##  3. Auto Login (Console-Style Startup)
-- Skips Windows login  
-- Uses Windows built-in AutoAdminLogon  
-- Disables “Require sign-in on wake”  
-- **Reversible anytime**
+## 3. Auto Login (Console-Style Startup)
+- Skips the Windows login screen  
+- Uses Windows AutoAdminLogon  
+- Disables **“Require sign-in on wake”**  
+- Fully reversible
 
-##  4. Full Revert Menu
-Restore everything to stock Windows behavior:
+## 4. Full Revert Menu
+Restore everything back to default Windows behavior:
 
+- Remove S3 override  
 - Re-enable Modern Standby  
+- Re-enable password prompts  
 - Restore timeouts  
 - Disable controller wake  
-- Disable auto login  
-- Re-enable password prompt on wake  
+- Disable auto-login settings  
 
-##  5. Intelligent Xbox Wireless Adapter Detection
+## 5. Intelligent Xbox Wireless Adapter Detection
 This wizard uses **two-layer detection**:
 
-###  **1. Name-based detection**  
+### **1. Name-based detection**
 Finds:
 - “Xbox Wireless Adapter for Windows”
 - “Xbox Controller”
 - “Xbox Wireless Controller”
 
-###  **2. Hardware VID/PID detection**
-Detects official dongle hardware:
+### **2. Hardware VID/PID detection (official Microsoft adapters)**
 
-| Hardware | VID | PID |
-|---------|------|------|
-| Xbox Wireless Adapter v1 | 045E | 02FE |
-| Xbox Wireless Adapter v2 | 045E | 0B05 |
+| Adapter | VID | PID |
+|--------|------|------|
+| Xbox Wireless Adapter (Model 1790) | 045E | 02FE |
+| Xbox Wireless Adapter (Model 1713) | 045E | 0B05 |
+| Additional official revisions | 045E | 02E6 / 02F9 / 091E |
 
-If the dongle is missing, the script explains why and how to fix it.
+If the dongle isn’t detected, the script explains possible fixes.
 
 ---
 
-#  How to Use
+# How to Use
 
 ### 1. Download the script  
 `ConsoleStylePCWizard.cmd`
 
 ### 2. Right-click → **Run as administrator**
 
-### 3. Choose what you want to configure:
+### 3. Choose an option:
 ```
 [1] Full Setup (Sleep + Auto Login + Wake)
 [2] Sleep Only
@@ -110,64 +112,63 @@ If the dongle is missing, the script explains why and how to fix it.
 ```
 
 ### 4. If S3 is not enabled  
-You will get this message:
+You’ll see:
 
-> “S3 Sleep is not enabled in BIOS.  
-> Here is how to turn it on…”
+> “S3 Sleep is not enabled in BIOS. Here is how to turn it on…”
 
-With detailed motherboard-specific BIOS steps.
+The wizard provides detailed BIOS/UEFI instructions.
 
 ### 5. Follow the prompts  
-Everything is color-coded:
+Color-coded interface:
 
--  Success = Green  
--  Errors / warnings = Red  
--  Information = White  
--  Wizard theme = green on black (console-style)
+- Green   → Success  
+- Red     → Errors / Warnings  
+- White   → Info  
+- Theme   → Green text on black background (console-style)  
 
 ---
 
-#  Security Notice (Plaintext Password)
+# Security Notice (Plaintext Password)
 If you enable Auto Login:
 
-- Your password is stored as **plaintext** in the Windows registry  
-- This is how Microsoft AutoAdminLogon works  
-- Do NOT use Auto Login on:
-  - Work PCs  
-  - Domain PCs  
-  - Shared computers  
+- Your password is stored as **plaintext** in the registry  
+- This is Microsoft’s *built-in* AutoAdminLogon behavior  
+- Only use this on a **personal gaming PC you fully control**
 
-This tool is intended for **personal gaming rigs only**.
+Do *not* use Auto Login on:
+- Work PCs  
+- Domain-joined systems  
+- Shared computers  
 
 ---
 
-#  BIOS Requirements for S3 Sleep
-If your PC doesn’t support S3, you’ll be guided to enable it.
+# BIOS Requirements for S3 Sleep
+If your PC does not support S3 sleep, the wizard explains how to enable it.
 
-Typical BIOS options:
+Common BIOS options:
 
 - **ACPI Sleep State → S3**  
-- **Legacy S3**  
+- **Legacy S3 Mode**  
 - **Suspend Mode → S3 Only**  
+- **Disable S0 Low Power Idle**  
 - **Disable Modern Standby**  
-- **Disable S0 Low Power Idle**
 
-Desktop motherboards almost always support S3.
+Most desktop motherboards support S3.
 
-Some laptops permanently disable it.
-
----
-
-#  License
-MIT License — free to use, modify, redistribute.
+Some OEM laptops may permanently remove S3 support.
 
 ---
 
-#  Support the Project
+# License
+MIT License — free to use, modify, and redistribute.
+
+---
+
+# Support the Project
 If this tool helped you:
 
-###  **Star the GitHub repo**  
-###  Share it with other PC gamers  
-###  Open issues or feature requests  
+### ⭐ **Star the GitHub repo**  
+### 🕹 Share it with PC gaming communities  
+### 🐛 Open issues or request features  
 
-I built this because I wanted console behavior back — and I know others do too.
+I built this because I wanted console behavior on Windows and I know many others want the too
