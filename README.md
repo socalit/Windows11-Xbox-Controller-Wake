@@ -34,12 +34,12 @@ Microsoft removed many of these options from the UI — this wizard brings them 
 
 To enable console-style controller wake, you **must have**:
 
-### ✔ **Xbox Wireless Adapter for Windows (USB dongle)**  
+### **Xbox Wireless Adapter for Windows (USB dongle)**  
 (Not Bluetooth — Bluetooth cannot reliably wake a PC.)
 
-### ✔ **Xbox One / Series X|S Wireless Controller**
+### **Xbox One / Series X|S Wireless Controller**
 
-### ✔ **Windows 10/11 PC with S3 Sleep enabled in BIOS**  
+### **Windows 10/11 PC with S3 Sleep enabled in BIOS**  
 If S3 is missing, the script will explain how to enable it.
 
 ---
