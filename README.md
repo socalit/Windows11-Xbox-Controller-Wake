@@ -138,7 +138,7 @@ Color-coded interface:
 - Green -> Success
 - Red   -> Errors / Warnings
 - White -> Info
-- Theme -> Green text on black background (console-style)
+- Theme -> Green text on black background
 
 ---
 
