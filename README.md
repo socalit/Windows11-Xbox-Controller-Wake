@@ -2,87 +2,104 @@
   <img src="assets/banner.png" alt="Windows 11 Xbox Controller Wake Banner" width="100%">
 </p>
 
-# Console-Style PC Wizard  
-**Turn Windows 11 into an Xbox-style console with controller wake, classic S3 sleep, and auto-login.**  
-Created by **SoCal IT** — https://github.com/socalit  
+# Console-Style PC Wizard
+**Turn Windows 11 into an Xbox-style console with controller wake, classic S3 sleep, and auto-login.**
+Created by **SoCal IT** - https://github.com/socalit
 
 ---
 
 ## Why I Built This
-Windows 11 continues stripping away options that made classic sleep work reliably:
+Windows 11 keeps stripping away options that made classic sleep work reliably:
 
-- No clear “S3 Sleep” toggle  
-- Modern Standby (S0ix) replacing true deep sleep  
-- Login prompts when waking from sleep  
-- Broken or inconsistent USB power management  
-- Xbox controller wake not working reliably  
+- No clear S3 Sleep toggle
+- Modern Standby (S0ix) replacing true deep sleep
+- Login prompts when waking from sleep
+- Broken or inconsistent USB power management
+- Controller wake not working reliably
 
-I built this project because I want my PC to behave **exactly like an Xbox console**:
+I built this project because I want my PC to behave like an Xbox console:
 
-- Press Xbox button → **PC wakes instantly**  
-- No login screen  
-- Instant sleep / instant-on behavior  
-- Controller wake via the **official Xbox Wireless Adapter** - Amazon affiliate link: https://amzn.to/4i0bjEW
-- No Modern Standby issues  
+- Press Xbox button -> PC wakes instantly
+- No login screen
+- Instant sleep / instant-on behavior
+- Controller wake via the **official Xbox Wireless Adapter** (best results)
+  - Amazon affiliate link: https://amzn.to/4i0bjEW
+- No Modern Standby issues
 
-Microsoft removed many of these options from the UI — this wizard brings them back.
+Microsoft removed many of these options from the UI - this wizard brings them back.
 
 ---
 
 # Requirements
 
-To enable console-style controller wake, you **must have**:
+## Best / Recommended Setup (Xbox-style wake)
+To enable console-style controller wake, you should have:
 
-### **Xbox Wireless Adapter for Windows (USB dongle)**
-(Not Bluetooth — Bluetooth cannot reliably wake a PC.)
+### Xbox Wireless Adapter for Windows (USB dongle)
+(Not Bluetooth - Bluetooth cannot reliably wake a PC on many systems.)
 
-### **Xbox One / Series X|S Wireless Controller**
+### Xbox One / Series X/S Wireless Controller
 
-### **Windows 10/11 PC with S3 Sleep enabled in BIOS**  
+### Windows 10/11 PC with S3 Sleep enabled in BIOS
 If S3 is missing, the script will explain how to enable it.
+
+## Other 2.4 GHz dongles (SCUF / 8BitDo / etc.)
+Some third-party 2.4 GHz receivers may NOT support wake-from-sleep at all.
+This is usually a driver/firmware limitation, not a script limitation.
+
+Use **Option [6]** in the wizard to check whether Windows reports your receiver as wake-capable.
+
+---
+
+# What's New (v1.0.2)
+- Fixes WMIC issues that caused:
+  - "Invalid XSL format (or) file name" errors on some systems
+  - Missed detection when WMIC output escaped `&` as `&amp;`
+- Improves Xbox Wireless Adapter detection by matching PID values (so `&` vs `&amp;` does not break detection)
+- Adds **Option [6] Universal Dongle Wake Compatibility Check** to help validate SCUF/8BitDo/other receivers
 
 ---
 
 # Features
 
 ## 1. Console-Style Sleep Setup
-- Enables or enforces **Classic S3 Sleep**  
-- Disables **Modern Standby (S0ix)** via registry override  
-- Applies console-style sleep & display timeouts  
-- Enables **controller wake** using:
-  - Name-based device scan  
-  - USB VID/PID hardware scan for the wireless dongle  
+- Enables or enforces Classic S3 Sleep
+- Disables Modern Standby (S0ix) via registry override
+- Applies console-style sleep & display timeouts
+- Helps configure controller wake
 - Gives BIOS instructions if S3 is disabled
 
-## 2. Controller Wake
-Configures your system so pressing **the Xbox button** wakes your PC — just like an Xbox console.
+## 2. Controller Wake (Xbox)
+Configures your system so pressing the Xbox button can wake your PC (when the hardware/driver supports it).
 
-## 3. Auto Login (Console-Style Startup)
-- Skips the Windows login screen  
-- Uses Windows AutoAdminLogon  
-- Disables **“Require sign-in on wake”**  
+## 3. Universal Dongle Wake Compatibility Check (Option [6])
+For non-Xbox 2.4 GHz dongles (SCUF / 8BitDo / etc.), this tool checks what Windows can actually arm for wake.
+
+It shows:
+- `wake_from_any` (devices Windows can arm for wake)
+- `wake_programmable` (devices that may support wake depending on driver/firmware)
+- `wake_armed` (devices currently enabled to wake the PC)
+
+Important:
+- If your receiver is NOT listed under `wake_from_any` (or at least `wake_programmable`), Windows usually cannot enable wake for it by script.
+- If it IS listed, you may be able to enable wake (either via the script or Device Manager power settings).
+
+## 4. Auto Login (Console-Style Startup)
+- Skips the Windows login screen
+- Uses Windows AutoAdminLogon
+- Disables "Require sign-in on wake"
 - Fully reversible
 
-## 4. Full Revert Menu
+## 5. Full Revert Menu
 Restore everything back to default Windows behavior:
+- Remove Modern Standby override
+- Re-enable password prompts
+- Restore timeouts
+- Disable controller wake (where applicable)
+- Disable auto-login settings
 
-- Remove S3 override  
-- Re-enable Modern Standby  
-- Re-enable password prompts  
-- Restore timeouts  
-- Disable controller wake  
-- Disable auto-login settings  
-
-## 5. Intelligent Xbox Wireless Adapter Detection
-This wizard uses **two-layer detection**:
-
-### **1. Name-based detection**
-Finds:
-- “Xbox Wireless Adapter for Windows”
-- “Xbox Controller”
-- “Xbox Wireless Controller”
-
-### **2. Hardware VID/PID detection (official Microsoft adapters)**
+## 6. Intelligent Xbox Wireless Adapter Detection (v1.0.2 hardened)
+This wizard uses hardware VID/PID detection for official Microsoft adapters:
 
 | Adapter | VID | PID |
 |--------|------|------|
@@ -90,54 +107,51 @@ Finds:
 | Xbox Wireless Adapter (Model 1713) | 045E | 0B05 |
 | Additional official revisions | 045E | 02E6 / 02F9 / 091E |
 
-If the dongle isn’t detected, the script explains possible fixes.
+Note: v1.0.2 avoids WMIC formatting issues and handles `&amp;` escaping, improving detection reliability.
 
 ---
 
 # How to Use
 
-### 1. Download the script  
+## 1. Download the script
 `ConsoleStylePCWizard.cmd`
 
-### 2. Right-click → **Run as administrator**
+## 2. Right-click -> Run as administrator
 
-### 3. Choose an option:
-```
+## 3. Choose an option
+
+```bash
 [1] Full Setup (Sleep + Auto Login + Wake)
 [2] Sleep Only
 [3] Auto Login Only
 [4] Revert Sleep Tweaks
 [5] Disable Auto Login
+[6] Universal Dongle Wake Compatibility Check (SCUF/8BitDo/etc.)
+[7] Exit
 ```
 
-### 4. If S3 is not enabled  
-You’ll see:
+## 4. If S3 is not enabled
+You will see a message explaining how to turn it on in BIOS/UEFI.
 
-> “S3 Sleep is not enabled in BIOS. Here is how to turn it on…”
-
-The wizard provides detailed BIOS/UEFI instructions.
-
-### 5. Follow the prompts  
+## 5. Follow the prompts
 Color-coded interface:
-
-- Green   → Success  
-- Red     → Errors / Warnings  
-- White   → Info  
-- Theme   → Green text on black background (console-style)  
+- Green -> Success
+- Red   -> Errors / Warnings
+- White -> Info
+- Theme -> Green text on black background (console-style)
 
 ---
 
 # Security Notice (Plaintext Password)
 If you enable Auto Login:
+- Your password is stored as plaintext in the registry
+- This is Microsoft's built-in AutoAdminLogon behavior
+- Only use this on a personal gaming PC you fully control
 
-- Your password is stored as **plaintext** in the registry  
-- This is Microsoft’s *built-in* AutoAdminLogon behavior  
-- Only use this on a **personal gaming PC you fully control**
-
-Do *not* use Auto Login on:
-- Work PCs  
-- Domain-joined systems  
-- Shared computers  
+Do not use Auto Login on:
+- Work PCs
+- Domain-joined systems
+- Shared computers
 
 ---
 
@@ -145,21 +159,19 @@ Do *not* use Auto Login on:
 If your PC does not support S3 sleep, the wizard explains how to enable it.
 
 Common BIOS options:
-
-- **ACPI Sleep State → S3**  
-- **Legacy S3 Mode**  
-- **Suspend Mode → S3 Only**  
-- **Disable S0 Low Power Idle**  
-- **Disable Modern Standby**  
+- ACPI Sleep State -> S3
+- Legacy S3 Mode
+- Suspend Mode -> S3 Only
+- Disable S0 Low Power Idle
+- Disable Modern Standby
 
 Most desktop motherboards support S3.
-
 Some OEM laptops may permanently remove S3 support.
 
 ---
 
 # License
-MIT License — free to use, modify, and redistribute.
+MIT License - free to use, modify, and redistribute.
 
 ---
 
