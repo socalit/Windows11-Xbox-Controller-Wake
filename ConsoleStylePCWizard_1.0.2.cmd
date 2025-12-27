@@ -694,30 +694,30 @@ set "PS_TMP=%temp%\wake_check_%random%%random%.ps1"
 set "LOG=%~dp0wake-report.txt"
 
 > "%PS_TMP%" (
-echo param([string]$LogPath)
+echo param([string]$LogPath^)
 echo $ErrorActionPreference = 'SilentlyContinue'
 echo.
-echo function Get-WakeList([string]$which) ^{
-echo   $out = & powercfg -devicequery $which 2^>$null
-echo   if(-not $out) { return @() }
-echo   return $out ^| Where-Object { $_ -and $_.Trim() -ne "" }
-echo ^}
+echo function Get-WakeList([string]$which^) {
+echo   $out = ^& powercfg -devicequery $which 2^>$null
+echo   if(-not $out^) { return @(^) }
+echo   return $out ^| Where-Object { $_ -and $_.Trim(^) -ne "" }
+echo }
 echo.
-echo function Get-DeviceByName([string]$name) ^{
-echo   # Prefer Get-PnpDevice (best on Win10/11), fallback to CIM.
+echo function Get-DeviceByName([string]$name^) {
+echo   # Prefer Get-PnpDevice (best on Win10/11^), fallback to CIM.
 echo   $d = Get-PnpDevice -FriendlyName $name -ErrorAction SilentlyContinue ^| Select-Object -First 1
-echo   if($d) { return $d }
+echo   if($d^) { return $d }
 echo.
-echo   $safe = $name.Replace("'","''")
-echo   $d2 = Get-CimInstance Win32_PnPEntity -Filter ("Name='{0}'" -f $safe) -ErrorAction SilentlyContinue ^| Select-Object -First 1
+echo   $safe = $name.Replace("'","''"^)
+echo   $d2 = Get-CimInstance Win32_PnPEntity -Filter ("Name='{0}'" -f $safe^) -ErrorAction SilentlyContinue ^| Select-Object -First 1
 echo   return $d2
-echo ^}
+echo }
 echo.
 echo $wakeFromAny = Get-WakeList "wake_from_any"
 echo $wakeProgrammable = Get-WakeList "wake_programmable"
 echo $wakeArmed = Get-WakeList "wake_armed"
 echo.
-echo if($LogPath) ^{
+echo if($LogPath^) {
 echo   "wake_from_any:" ^| Out-File -FilePath $LogPath -Encoding UTF8
 echo   $wakeFromAny ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
 echo   "" ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
@@ -726,23 +726,23 @@ echo   $wakeProgrammable ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
 echo   "" ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
 echo   "wake_armed:" ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
 echo   $wakeArmed ^| Out-File -FilePath $LogPath -Append -Encoding UTF8
-echo ^}
+echo }
 echo.
 echo Write-Host "============================================================"
 echo Write-Host "                UNIVERSAL WAKE REPORT"
 echo Write-Host "============================================================"
 echo Write-Host ""
-echo Write-Host ("Report saved to: {0}" -f $LogPath)
+echo Write-Host ("Report saved to: {0}" -f $LogPath^)
 echo Write-Host ""
 echo.
 echo Write-Host "Wake-from-any devices (can be armed):"
-echo if($wakeFromAny.Count -eq 0) { Write-Host "  (none reported)" } else { $wakeFromAny ^| ForEach-Object { Write-Host ("  - " + $_) } }
+echo if($wakeFromAny.Count -eq 0^) { Write-Host "  (none reported)" } else { $wakeFromAny ^| ForEach-Object { Write-Host ("  - " + $_^) } }
 echo Write-Host ""
 echo Write-Host "Wake-programmable devices (driver/firmware may allow):"
-echo if($wakeProgrammable.Count -eq 0) { Write-Host "  (none reported)" } else { $wakeProgrammable ^| ForEach-Object { Write-Host ("  - " + $_) } }
+echo if($wakeProgrammable.Count -eq 0^) { Write-Host "  (none reported)" } else { $wakeProgrammable ^| ForEach-Object { Write-Host ("  - " + $_^) } }
 echo Write-Host ""
 echo Write-Host "Wake-armed devices (currently enabled):"
-echo if($wakeArmed.Count -eq 0) { Write-Host "  (none armed)" } else { $wakeArmed ^| ForEach-Object { Write-Host ("  - " + $_) } }
+echo if($wakeArmed.Count -eq 0^) { Write-Host "  (none armed)" } else { $wakeArmed ^| ForEach-Object { Write-Host ("  - " + $_^) } }
 echo.
 echo Write-Host ""
 echo Write-Host "Resolved device IDs (flags likely USB dongles):"
@@ -751,27 +751,27 @@ echo Write-Host "  [BT/RADIO]    = Bluetooth stack/radio (wake behavior varies)"
 echo Write-Host "  [OTHER]       = other bus/class device"
 echo Write-Host ""
 echo.
-echo foreach($n in $wakeFromAny) ^{
+echo foreach($n in $wakeFromAny^) {
 echo   $d = Get-DeviceByName $n
-echo   if($null -eq $d) ^{
-echo     Write-Host ("[UNRESOLVED] " + $n)
+echo   if($null -eq $d^) {
+echo     Write-Host ("[UNRESOLVED] " + $n^)
 echo     continue
-echo   ^}
+echo   }
 echo.
 echo   $id = $d.InstanceId
-echo   if(-not $id) { $id = $d.DeviceID }
+echo   if(-not $id^) { $id = $d.DeviceID }
 echo.
 echo   $cls = $d.Class
-echo   if(-not $cls) { $cls = $d.PNPClass }
+echo   if(-not $cls^) { $cls = $d.PNPClass }
 echo.
 echo   $tag = "OTHER"
-echo   if($id -like "USB\VID_*") { $tag = "USB-WAKE-OK" }
-echo   elseif($id -like "BTH*" -or $id -like "Bluetooth*") { $tag = "BT/RADIO" }
+echo   if($id -like "USB\VID_*"^) { $tag = "USB-WAKE-OK" }
+echo   elseif($id -like "BTH*" -or $id -like "Bluetooth*"^) { $tag = "BT/RADIO" }
 echo.
-echo   Write-Host ("[{0}] {1}" -f $tag, $n)
-echo   if($id)  { Write-Host ("     ID:    {0}" -f $id) }
-echo   if($cls) { Write-Host ("     Class: {0}" -f $cls) }
-echo ^}
+echo   Write-Host ("[{0}] {1}" -f $tag, $n^)
+echo   if($id^)  { Write-Host ("     ID:    {0}" -f $id^) }
+echo   if($cls^) { Write-Host ("     Class: {0}" -f $cls^) }
+echo }
 echo.
 echo Write-Host ""
 echo Write-Host "------------------------------------------------------------"
