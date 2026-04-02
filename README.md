@@ -56,12 +56,21 @@ Use **Option [6]** in the wizard to check whether Windows reports your receiver 
 
 ---
 
-# What's New (v1.0.2)
-- Fixes WMIC issues that caused:
-  - "Invalid XSL format (or) file name" errors on some systems
-  - Missed detection when WMIC output escaped `&` as `&amp;`
-- Improves Xbox Wireless Adapter detection by matching PID values (so `&` vs `&amp;` does not break detection)
-- Adds **Option [6] Universal Dongle Wake Compatibility Check** to help validate SCUF/8BitDo/other receivers
+# What's New
+
+## v1.1.0
+- **Fixed** power scheme GUID parsing bug — sign-in on wake setting now applies correctly (was silently failing in all prior versions)
+- **Customizable timeouts** — set your own display and sleep timeouts (AC and DC) instead of hardcoded values
+- **DC (battery) timeouts** — now configures battery timeouts in addition to AC
+- **Masked password input** — password is no longer visible while typing during auto-login setup
+- **Execution log** — timestamped `wizard-log.txt` written alongside the script so you can see exactly what changed
+- **Option [7] View Log** — view the execution log directly from the menu
+- **Expanded BIOS guidance** — S3 setup instructions now include Dell/Alienware, HP/OMEN, Lenovo ThinkPad, Framework, and Intel NUC with vendor-specific navigation paths
+
+## v1.0.2
+- Fixes WMIC issues that caused "Invalid XSL format (or) file name" errors on some systems
+- Fixes missed detection when WMIC output escaped `&` as `&amp;`
+- Adds **Option [6] Universal Dongle Wake Compatibility Check** to validate SCUF/8BitDo/other receivers
 
 ---
 
@@ -70,7 +79,7 @@ Use **Option [6]** in the wizard to check whether Windows reports your receiver 
 ## 1. Console-Style Sleep Setup
 - Enables or enforces Classic S3 Sleep
 - Disables Modern Standby (S0ix) via registry override
-- Applies console-style sleep & display timeouts
+- Applies customizable sleep & display timeouts (AC and DC)
 - Helps configure controller wake
 - Gives BIOS instructions if S3 is disabled
 
@@ -93,17 +102,21 @@ Important:
 - Skips the Windows login screen
 - Uses Windows AutoAdminLogon
 - Disables "Require sign-in on wake"
+- Password is masked while typing (not shown on screen)
 - Fully reversible
 
-## 5. Full Revert Menu
+## 5. Execution Log (v1.1.0)
+Every action the wizard takes is written to `wizard-log.txt` in the same folder as the script, with timestamps. View it from the main menu (Option [7]) or open it in any text editor to review what was changed.
+
+## 6. Full Revert Menu
 Restore everything back to default Windows behavior:
 - Remove Modern Standby override
 - Re-enable password prompts
-- Restore timeouts
+- Restore timeouts (AC and DC)
 - Disable controller wake (where applicable)
 - Disable auto-login settings
 
-## 6. Intelligent Xbox Wireless Adapter Detection (v1.0.2 hardened)
+## 7. Intelligent Xbox Wireless Adapter Detection (v1.0.2 hardened)
 This wizard uses hardware VID/PID detection for official Microsoft adapters:
 
 | Adapter | VID | PID |
@@ -119,24 +132,25 @@ Note: v1.0.2 avoids WMIC formatting issues and handles `&amp;` escaping, improvi
 # How to Use
 
 ## 1. Download the script
-`ConsoleStylePCWizard_1.0.2.cmd`
+`ConsoleStylePCWizard_1.1.0.cmd`
 
 ## 2. Right-click -> Run as administrator
 
 ## 3. Choose an option
 
-```bash
+```
 [1] Full Setup (Sleep + Auto Login + Wake)
 [2] Sleep Only
 [3] Auto Login Only
 [4] Revert Sleep Tweaks
 [5] Disable Auto Login
 [6] Universal Dongle Wake Compatibility Check (SCUF/8BitDo/etc.)
-[7] Exit
+[7] View Execution Log
+[8] Exit
 ```
 
 ## 4. If S3 is not enabled
-You will see a message explaining how to turn it on in BIOS/UEFI.
+You will see a message explaining how to turn it on in your specific BIOS/UEFI (instructions included for ASUS, MSI, Gigabyte, ASRock, Dell, HP, Lenovo, Framework, and Intel NUC).
 
 ## 5. Follow the prompts
 Color-coded interface:
@@ -151,6 +165,7 @@ Color-coded interface:
 If you enable Auto Login:
 - Your password is stored as plaintext in the registry
 - This is Microsoft's built-in AutoAdminLogon behavior
+- The password entry is masked while typing (characters not shown)
 - Only use this on a personal gaming PC you fully control
 
 Do not use Auto Login on:
@@ -161,7 +176,7 @@ Do not use Auto Login on:
 ---
 
 # BIOS Requirements for S3 Sleep
-If your PC does not support S3 sleep, the wizard explains how to enable it.
+If your PC does not support S3 sleep, the wizard explains how to enable it for your specific motherboard/manufacturer.
 
 Common BIOS options:
 - ACPI Sleep State -> S3
@@ -169,6 +184,8 @@ Common BIOS options:
 - Suspend Mode -> S3 Only
 - Disable S0 Low Power Idle
 - Disable Modern Standby
+
+Vendor-specific navigation paths are shown in the wizard when S3 is not detected.
 
 Most desktop motherboards support S3.
 Some OEM laptops may permanently remove S3 support.
@@ -183,14 +200,13 @@ MIT License - free to use, modify, and redistribute.
 # Support the Project
 If this tool helped you:
 
-### ⭐ **Star the GitHub repo**  
-### Share it with PC gaming communities  
-### Open issues or request features  
+### ⭐ **Star the GitHub repo**
+### Share it with PC gaming communities
+### Open issues or request features
 
 If this project saved you time or solved a problem, consider supporting development:
 
 [![Buy Me a Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&slug=socal370xs&button_colour=FFDD00&font_colour=000000&font_family=Arial&outline_colour=000000&coffee_colour=ffffff)](https://buymeacoffee.com/socal370xs)
 
-
-
 I built this because I wanted console behavior on Windows, and I know many others do too.
+
