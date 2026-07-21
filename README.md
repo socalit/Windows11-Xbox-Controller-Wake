@@ -28,7 +28,7 @@ I built this project because I want my PC to behave like an Xbox console:
 - No login screen
 - Instant sleep / instant-on behavior
 - Controller wake via the **official Xbox Wireless Adapter** (best results)
-  - Amazon affiliate link: https://amzn.to/4i0bjEW
+  - Amazon affiliate link: [https://amzn.to/4i0bjEW](https://amzn.to/3R7zlVP)
 - No Modern Standby issues
 
 Microsoft removed many of these options from the UI - this wizard brings them back.
